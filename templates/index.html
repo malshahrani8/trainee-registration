@@ -3,10 +3,10 @@
 {% block title %}تسجيل متدرب جديد{% endblock %}
 
 {% block content %}
-<div class="main-container">
-    <div class="text-center mb-4">
-        <h1 class="page-title d-inline-block">حجز موعد إختبار</h1>
-        <p class="text-muted mt-2">يرجى تعبئة البيانات التالية واختيار الجلسة المناسبة</p>
+<div class="main-container fade-in">
+    <div class="text-center mb-5">
+        <h1 class="page-title d-inline-block">📝 التسجيل في اختبار مقرر مقدمة تطبيقات الحاسب</h1>
+        <p class="text-muted mt-3" style="font-size: 1.1rem;">يرجى تعبئة البيانات التالية واختيار الجلسة المناسبة</p>
     </div>
 
     <form method="POST" action="{{ url_for('register') }}" id="registrationForm">
@@ -32,7 +32,7 @@
                         </label>
                         <input type="text" class="form-control" name="trainee_id" 
                                pattern="[0-9]{6,10}" placeholder="مثال: 12345678" required>
-                        <small class="text-muted">9 أرقام فقط</small>
+                        <small class="form-text">6-10 أرقام فقط</small>
                     </div>
                     
                     <div class="col-md-6 mb-3">
@@ -41,7 +41,7 @@
                         </label>
                         <input type="tel" class="form-control" name="phone" 
                                pattern="05[0-9]{8}" placeholder="05xxxxxxxx" required>
-                        <small class="text-muted">يبدأ بـ 05 ويتكون من 10 أرقام</small>
+                        <small class="form-text">يبدأ بـ 05 ويتكون من 10 أرقام</small>
                     </div>
                     
                     <div class="col-md-6 mb-3">
@@ -49,7 +49,19 @@
                             <i class="fas fa-envelope text-tvtc ms-1"></i> البريد الإلكتروني *
                         </label>
                         <input type="email" class="form-control" name="email" required>
-                        <small class="text-muted">سيتم إرسال تأكيد التسجيل إلى هذا البريد</small>
+                        <small class="form-text">سيتم إرسال تأكيد التسجيل إلى هذا البريد</small>
+                    </div>
+                    
+                    <div class="col-12 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-graduation-cap text-tvtc ms-1"></i> التخصص *
+                        </label>
+                        <select class="form-select" name="specialization" id="specialization" required>
+                            <option value="">-- اختر التخصص --</option>
+                            {% for value, label in specializations %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
             </div>
@@ -61,66 +73,44 @@
                 <i class="fas fa-calendar-check ms-2"></i> اختر جلسة الاختبار
             </div>
             <div class="card-body">
-                {% if sessions %}
-                    {% for session in sessions %}
-                    <label class="session-card d-block">
-                        <div class="d-flex align-items-start">
-                            <input type="radio" name="session_id" value="{{ session.id }}" required>
-                            <div class="flex-grow-1 me-3">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="mb-0" style="color: var(--tvtc-green);">
-                                        <i class="fas fa-book-open ms-2"></i> {{ session.course_name }}
-                                    </h5>
-                                    {{ session.status_badge | safe }}
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md-4">
-                                        <small><i class="fas fa-calendar-day text-muted ms-1"></i> {{ session.session_date.strftime('%Y-%m-%d') }}</small>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <small><i class="fas fa-clock text-muted ms-1"></i> {{ session.session_time.strftime('%H:%M') }}</small>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <small><i class="fas fa-map-marker-alt text-muted ms-1"></i> {{ session.location }}</small>
-                                    </div>
-                                </div>
-                                <div class="mt-2">
-                                    <small class="text-muted">
-                                        <i class="fas fa-users"></i> المسجلون: {{ session.current_count }} / {{ session.max_capacity }}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                    {% endfor %}
-                {% else %}
-                    <div class="alert alert-warning text-center">
-                        <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
-                        <p class="mb-0">لا توجد جلسات متاحة حالياً، يرجى التواصل مع المسؤول.</p>
+                <div id="sessionsContainer">
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-info-circle fa-2x mb-2"></i>
+                        <p class="mb-0">يرجى اختيار التخصص أولاً لعرض الجلسات المتاحة</p>
                     </div>
-                {% endif %}
+                </div>
             </div>
         </div>
 
-        {% if sessions %}
-        <div class="text-center">
+        <div id="submitBtnContainer" class="text-center" style="display: none;">
             <button type="submit" class="btn btn-tvtc btn-lg px-5">
                 <i class="fas fa-check-circle ms-2"></i> تأكيد التسجيل
             </button>
         </div>
-        {% endif %}
     </form>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// تمييز البطاقة المحددة
-document.querySelectorAll('.session-card input[type="radio"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        document.querySelectorAll('.session-card').forEach(card => card.classList.remove('selected'));
-        this.closest('.session-card').classList.add('selected');
-    });
-});
-</script>
-{% endblock %}
+// الفلترة الديناميكية للجلسات حسب التخصص
+document.getElementById('specialization').addEventListener('change', function() {
+    const specialization = this.value;
+    const container = document.getElementById('sessionsContainer');
+    const submitBtn = document.getElementById('submitBtnContainer');
+    
+    if (!specialization) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-4">
+                <i class="fas fa-info-circle fa-2x mb-2"></i>
+                <p class="mb-0">يرجى اختيار التخصص أولاً لعرض الجلسات المتاحة</p>
+            </div>
+        `;
+        submitBtn.style.display = 'none';
+        return;
+    }
+    
+    // عرض رسالة التحميل
+    container.innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-tvtc" role="
