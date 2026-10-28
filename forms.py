@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, TimeField, IntegerField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, ValidationError, Regexp
-import re
+from wtforms import StringField, PasswordField, DateField, TimeField, IntegerField, SelectField, SubmitField
+from wtforms.validators import DataRequired, Email, Length, Regexp, NumberRange
+from models import SPECIALIZATIONS, COURSES, SESSION_ORDER
 
 class LoginForm(FlaskForm):
     username = StringField('اسم المستخدم', validators=[DataRequired(message='اسم المستخدم مطلوب')])
@@ -30,6 +30,10 @@ class TraineeRegistrationForm(FlaskForm):
         Email(message='صيغة البريد الإلكتروني غير صحيحة')
     ])
     
+    specialization = SelectField('التخصص', choices=SPECIALIZATIONS, validators=[
+        DataRequired(message='يجب اختيار التخصص')
+    ])
+    
     session_id = StringField('الجلسة المختارة', validators=[
         DataRequired(message='يجب اختيار جلسة')
     ])
@@ -38,8 +42,18 @@ class TraineeRegistrationForm(FlaskForm):
 
 
 class SessionForm(FlaskForm):
-    course_name = StringField('اسم المقرر', default='مقدمة تطبيقات الحاسب',
-                              validators=[DataRequired(message='اسم المقرر مطلوب')])
+    course_name = SelectField('المقرر', choices=COURSES, validators=[
+        DataRequired(message='يجب اختيار المقرر')
+    ])
+    
+    specialization = SelectField('التخصص', choices=SPECIALIZATIONS, validators=[
+        DataRequired(message='يجب اختيار التخصص')
+    ])
+    
+    session_order = SelectField('ترتيب الجلسة', choices=SESSION_ORDER, coerce=int, validators=[
+        DataRequired(message='يجب اختيار ترتيب الجلسة')
+    ])
+    
     session_date = DateField('تاريخ الجلسة', format='%Y-%m-%d',
                              validators=[DataRequired(message='تاريخ الجلسة مطلوب')])
     session_time = TimeField('وقت الجلسة', format='%H:%M',
@@ -49,5 +63,6 @@ class SessionForm(FlaskForm):
         Length(max=100)
     ])
     max_capacity = IntegerField('السعة القصوى', default=20,
-                                validators=[DataRequired(message='السعة مطلوبة')])
+                                validators=[DataRequired(message='السعة مطلوبة'),
+                                          NumberRange(min=1, max=50, message='السعة بين 1 و 50')])
     submit = SubmitField('حفظ')
