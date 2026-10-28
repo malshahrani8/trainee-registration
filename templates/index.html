@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}تسجيل متدرب جديد{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="text-center mb-4">
+        <h1 class="page-title d-inline-block">حجز موعد إختبار</h1>
+        <p class="text-muted mt-2">يرجى تعبئة البيانات التالية واختيار الجلسة المناسبة</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('register') }}" id="registrationForm">
+        {{ form.hidden_tag() }}
+        
+        <!-- البيانات الشخصية -->
+        <div class="card card-tvtc mb-4">
+            <div class="card-header">
+                <i class="fas fa-user ms-2"></i> البيانات الشخصية
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-user-tag text-tvtc ms-1"></i> الاسم الكامل *
+                        </label>
+                        <input type="text" class="form-control" name="full_name" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-id-card text-tvtc ms-1"></i> الرقم التدريبي *
+                        </label>
+                        <input type="text" class="form-control" name="trainee_id" 
+                               pattern="[0-9]{6,10}" placeholder="مثال: 12345678" required>
+                        <small class="text-muted">9 أرقام فقط</small>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-mobile-alt text-tvtc ms-1"></i> رقم الجوال *
+                        </label>
+                        <input type="tel" class="form-control" name="phone" 
+                               pattern="05[0-9]{8}" placeholder="05xxxxxxxx" required>
+                        <small class="text-muted">يبدأ بـ 05 ويتكون من 10 أرقام</small>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-envelope text-tvtc ms-1"></i> البريد الإلكتروني *
+                        </label>
+                        <input type="email" class="form-control" name="email" required>
+                        <small class="text-muted">سيتم إرسال تأكيد التسجيل إلى هذا البريد</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- اختيار الجلسة -->
+        <div class="card card-tvtc mb-4">
+            <div class="card-header">
+                <i class="fas fa-calendar-check ms-2"></i> اختر جلسة الاختبار
+            </div>
+            <div class="card-body">
+                {% if sessions %}
+                    {% for session in sessions %}
+                    <label class="session-card d-block">
+                        <div class="d-flex align-items-start">
+                            <input type="radio" name="session_id" value="{{ session.id }}" required>
+                            <div class="flex-grow-1 me-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="mb-0" style="color: var(--tvtc-green);">
+                                        <i class="fas fa-book-open ms-2"></i> {{ session.course_name }}
+                                    </h5>
+                                    {{ session.status_badge | safe }}
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <small><i class="fas fa-calendar-day text-muted ms-1"></i> {{ session.session_date.strftime('%Y-%m-%d') }}</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <small><i class="fas fa-clock text-muted ms-1"></i> {{ session.session_time.strftime('%H:%M') }}</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <small><i class="fas fa-map-marker-alt text-muted ms-1"></i> {{ session.location }}</small>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-users"></i> المسجلون: {{ session.current_count }} / {{ session.max_capacity }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                        <p class="mb-0">لا توجد جلسات متاحة حالياً، يرجى التواصل مع المسؤول.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if sessions %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-tvtc btn-lg px-5">
+                <i class="fas fa-check-circle ms-2"></i> تأكيد التسجيل
+            </button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// تمييز البطاقة المحددة
+document.querySelectorAll('.session-card input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.querySelectorAll('.session-card').forEach(card => card.classList.remove('selected'));
+        this.closest('.session-card').classList.add('selected');
+    });
+});
+</script>
+{% endblock %}

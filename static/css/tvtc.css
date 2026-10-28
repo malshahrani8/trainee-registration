@@ -1,0 +1,302 @@
+/* ═══════════════════════════════════════════════════════
+   TVTC Brand Identity - المؤسسة العامة للتدريب التقني والمهني
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+    --tvtc-green: #00634B;
+    --tvtc-green-dark: #004D3A;
+    --tvtc-green-light: #E8F3EE;
+    --tvtc-gray: #6C757D;
+    --tvtc-gray-light: #F5F5F5;
+    --tvtc-gray-border: #E0E0E0;
+    --tvtc-white: #FFFFFF;
+    --tvtc-red: #C62828;
+}
+
+/* الخطوط الرسمية */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+
+* {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+    background: var(--tvtc-gray-light);
+    color: #333;
+    direction: rtl;
+}
+
+/* ═══════════════════════ Navbar ═══════════════════════ */
+.navbar-tvtc {
+    background: var(--tvtc-green);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.navbar-tvtc .navbar-brand {
+    color: var(--tvtc-white) !important;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.navbar-tvtc .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+}
+
+.navbar-tvtc .nav-link:hover {
+    color: var(--tvtc-white) !important;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+}
+
+.navbar-tvtc .navbar-text {
+    color: var(--tvtc-white) !important;
+}
+
+/* ═══════════════════════ Main Container ═══════════════════════ */
+.main-container {
+    background: var(--tvtc-white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    color: var(--tvtc-green);
+    font-weight: 700;
+    border-right: 5px solid var(--tvtc-green);
+    padding-right: 15px;
+    margin-bottom: 30px;
+}
+
+/* ═══════════════════════ Buttons ═══════════════════════ */
+.btn-tvtc {
+    background: var(--tvtc-green);
+    color: var(--tvtc-white);
+    border: none;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.btn-tvtc:hover {
+    background: var(--tvtc-green-dark);
+    color: var(--tvtc-white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 99, 75, 0.3);
+}
+
+.btn-tvtc-outline {
+    background: transparent;
+    color: var(--tvtc-green);
+    border: 2px solid var(--tvtc-green);
+    padding: 8px 28px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.btn-tvtc-outline:hover {
+    background: var(--tvtc-green);
+    color: var(--tvtc-white);
+}
+
+/* ═══════════════════════ Cards ═══════════════════════ */
+.card-tvtc {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s;
+}
+
+.card-tvtc:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+
+.card-tvtc .card-header {
+    background: var(--tvtc-green);
+    color: var(--tvtc-white);
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* ═══════════════════════ Session Cards ═══════════════════════ */
+.session-card {
+    border: 2px solid var(--tvtc-gray-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--tvtc-white);
+}
+
+.session-card:hover {
+    border-color: var(--tvtc-green);
+    background: var(--tvtc-green-light);
+    transform: translateX(-5px);
+}
+
+.session-card input[type="radio"] {
+    accent-color: var(--tvtc-green);
+    width: 20px;
+    height: 20px;
+}
+
+.session-card.selected {
+    border-color: var(--tvtc-green);
+    background: var(--tvtc-green-light);
+    box-shadow: 0 0 0 3px rgba(0, 99, 75, 0.1);
+}
+
+/* ═══════════════════════ Badges ═══════════════════════ */
+.badge {
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.bg-tvtc-green {
+    background: var(--tvtc-green) !important;
+}
+
+/* ═══════════════════════ Forms ═══════════════════════ */
+.form-control:focus, .form-select:focus {
+    border-color: var(--tvtc-green);
+    box-shadow: 0 0 0 0.2rem rgba(0, 99, 75, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* ═══════════════════════ Tables ═══════════════════════ */
+.table-tvtc {
+    background: var(--tvtc-white);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-tvtc thead {
+    background: var(--tvtc-green);
+    color: var(--tvtc-white);
+}
+
+.table-tvtc th {
+    font-weight: 600;
+    padding: 15px;
+    border: none;
+}
+
+.table-tvtc td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-top: 1px solid var(--tvtc-gray-border);
+}
+
+.table-tvtc tbody tr:hover {
+    background: var(--tvtc-green-light);
+}
+
+/* ═══════════════════════ Dashboard Stats ═══════════════════════ */
+.stat-card {
+    background: var(--tvtc-white);
+    border-radius: 12px;
+    padding: 25px;
+    border-right: 5px solid var(--tvtc-green);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s;
+    margin-bottom: 20px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--tvtc-green);
+    margin: 10px 0;
+}
+
+.stat-card p {
+    color: var(--tvtc-gray);
+    margin: 0;
+    font-weight: 600;
+}
+
+.stat-icon {
+    font-size: 3rem;
+    color: var(--tvtc-green);
+    opacity: 0.2;
+    float: left;
+}
+
+/* ═══════════════════════ Alerts ═══════════════════════ */
+.alert-tvtc {
+    background: var(--tvtc-green-light);
+    border: 1px solid var(--tvtc-green);
+    color: var(--tvtc-green-dark);
+    border-radius: 8px;
+    padding: 15px 20px;
+}
+
+/* ═══════════════════════ Footer ═══════════════════════ */
+.footer-tvtc {
+    background: var(--tvtc-green-dark);
+    color: var(--tvtc-white);
+    padding: 30px 0;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.footer-tvtc p {
+    margin: 5px 0;
+    opacity: 0.9;
+}
+
+/* ═══════════════════════ Login Page ═══════════════════════ */
+.login-container {
+    max-width: 450px;
+    margin: 80px auto;
+}
+
+.login-logo {
+    width: 120px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+/* ═══════════════════════ Responsive ═══════════════════════ */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 20px;
+        margin-top: 15px;
+    }
+    
+    .stat-card {
+        margin-bottom: 15px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* ═══════════════════════ Print Styles ═══════════════════════ */
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; }
+}
